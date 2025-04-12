@@ -1,0 +1,34 @@
+# Node Modules (Backend + Frontend)
+**/node_modules/
+
+# Environment Files
+**/.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# React Native / Android / iOS build artifacts
+*.keystore
+*.gradle
+android/app/build/
+ios/build/
+ios/Pods/
+*.xcworkspace
+
+# React Web build
+frontend/web/build/
+
+# Expo
+.expo/
+
+# VSCode
+.vscode/
+
+# Coverage Reports
+coverage/
