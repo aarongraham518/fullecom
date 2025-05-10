@@ -3,6 +3,28 @@ const Product = require("../models/product.model");
 const Category = require('../models/category.model'); 
 const router = express.Router();
 
+// routes/productRoutes.js
+router.get('/products/homepage', async (req, res) => {
+  try {
+    const categories = ['Shoes', 'Bags', 'Shirts', 'Pants'];
+    const products = [];
+
+    for (let name of categories) {
+      const category = await Category.findOne({ name });
+
+      if (category) {
+        const product = await Product.findOne({ category: category._id });
+        if (product) products.push(product);
+      }
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching homepage products:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // Get all products
 router.get("/products", async (req, res) => {
   try {
@@ -10,6 +32,24 @@ router.get("/products", async (req, res) => {
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+// Get products by category ID
+router.get('/products/by-category/:categoryId', async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const products = await Product.find({ category: categoryId });
+
+    if (products.length === 0) {
+      return res.status(404).json({ message: 'No products found for this category' });
+    }
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching products by category ID:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
